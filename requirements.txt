@@ -1,0 +1,3 @@
+twikit
+pymongo
+python-dotenv
