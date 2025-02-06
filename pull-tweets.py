@@ -75,6 +75,7 @@ async def fetch_full_tweets():
             ],
         }
         #TODO Only edd to mongo if its engagement is significant
+
     collection.insert_one(tweet_data)
     print(f"\n✅ Tweet Data:\n{tweet_data}")
 
