@@ -1,3 +1,6 @@
 twikit
 pymongo
 python-dotenv
+sentence-transformers
+kafka-python
+faiss-cpu

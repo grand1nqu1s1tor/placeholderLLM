@@ -24,6 +24,9 @@ A lightweight, open-source project to experiment with **LLMs, data pipelines, an
 🔹 **Storage Considerations**
 - Each tweet document is approximately **1KB** in size.
 - MongoDB **persists all data on disk** with optimized memory usage.
+- Choosing my Embedding model is an important consideration : (https://openreview.net/pdf?id=zl3pfz4VCV)
+- Finalizing BAAI/bge-small-en
+- Had to use Replica Set setup for MongoDB since Watch Streams aren't supported on Standalone instance.
 
 ---
 
@@ -32,3 +35,4 @@ A lightweight, open-source project to experiment with **LLMs, data pipelines, an
 ```bash
 git clone https://github.com/your-username/PlaceholderLLM.git
 cd PlaceholderLLM
+![Screenshot 2025-02-06 at 12.22.16 PM.png](..%2F..%2F..%2F..%2Fvar%2Ffolders%2Fm4%2Fctrfwylx5_l_ytbflnt1j5dw0000gn%2FT%2FTemporaryItems%2FNSIRD_screencaptureui_lE3C9i%2FScreenshot%202025-02-06%20at%2012.22.16%E2%80%AFPM.png)

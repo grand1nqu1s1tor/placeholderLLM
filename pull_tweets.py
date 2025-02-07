@@ -1,8 +1,8 @@
-import os
 import asyncio
-from twikit import Client
+import os
 from dotenv import load_dotenv
 from pymongo import MongoClient
+from twikit import Client
 
 # Load environment variables from .env file
 load_dotenv()
@@ -24,6 +24,7 @@ if not USERNAME or not EMAIL or not PASSWORD:
 # Initialize Twikit Client
 client = Client("en-US")
 
+
 async def fetch_full_tweets():
     # Log in to Twikit
     await client.login(
@@ -35,7 +36,7 @@ async def fetch_full_tweets():
     print("✅ Logged in successfully!")
 
     # Step 1: Fetch Tweet IDs (Search for tweets)
-    tweets = await client.search_tweet("LLM", "Latest", 5)
+    tweets = await client.search_tweet("LLM", "Top", 20)
     tweet_ids = [tweet.id for tweet in tweets[:10]]  # Get first 10 tweet IDs
 
     print(f"🔹 Found {len(tweet_ids)} tweet IDs: {tweet_ids}")
@@ -54,7 +55,9 @@ async def fetch_full_tweets():
             "text": tweet._data["legacy"]["full_text"],
             "user": {
                 "user_id": tweet._data["core"]["user_results"]["result"]["rest_id"],
-                "handle": tweet._data["core"]["user_results"]["result"]["legacy"]["screen_name"],
+                "handle": tweet._data["core"]["user_results"]["result"]["legacy"][
+                    "screen_name"
+                ],
             },
             "created_at": tweet._data["legacy"]["created_at"],
             "engagement": {
@@ -70,15 +73,12 @@ async def fetch_full_tweets():
                 for hashtag in tweet._data["legacy"]["entities"]["hashtags"]
             ],
             "urls": [
-                url["expanded_url"]
-                for url in tweet._data["legacy"]["entities"]["urls"]
+                url["expanded_url"] for url in tweet._data["legacy"]["entities"]["urls"]
             ],
         }
-        #TODO Only edd to mongo if its engagement is significant
-
-    collection.insert_one(tweet_data)
-    print(f"\n✅ Tweet Data:\n{tweet_data}")
-
+        # TODO Only edd to mongo if its engagement is significant
+        collection.insert_one(tweet_data)
+        print(f"\n✅ Tweet Data:\n{tweet_data}")
 
 
 # Run the async function
