@@ -1,3 +1,7 @@
+## 447757a - Vector DB Setup Done + Embeddings being Stored for Tweets (grandinquisitor, 2025-02-08)
+## e7b7633 - The ETL is working now. Onto the Embeddings Lore tomorrow (grandinquisitor, 2025-02-06)
+## 45b0bc8 - Goodnight (grandinquisitor, 2025-02-06)
+## f9b6654 - Split ETL and CDC services and setup kafka queue (grandinquisitor, 2025-02-06)
 ## 1230922 - Pulling in from twitter (grandinquisitor, 2025-02-05)
 ## b1778d0 - Init (grandinquisitor, 2025-02-05)
 ## 50c7963 - Initial commit (grandinquisitor, 2025-02-04)
