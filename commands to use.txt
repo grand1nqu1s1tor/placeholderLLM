@@ -1,1 +1,12 @@
 git log --pretty=format:"## %h - %s (%an, %ad)" --date=short > CHANGELOG.md
+
+
+->Retrieving Vectors Along With Your Points
+curl -X POST "http://localhost:6333/collections/tweet_embeddings/points/scroll" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "limit": 5,
+    "with_payload": true,
+    "with_vector": true
+  }'
+

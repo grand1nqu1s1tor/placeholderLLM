@@ -89,7 +89,20 @@ services:
       - ALLOW_PLAINTEXT_LISTENER=yes  # ✅ Ensures no auth issues
     restart: always
 
+  # Qdrant Vector Database
+  qdrant:
+    image: qdrant/qdrant:latest
+    container_name: qdrant
+    ports:
+      - "6333:6333"
+      - "6334:6334"
+    volumes:
+      - qdrant_storage:/qdrant/storage
+    restart: always
+
+
 # MongoDB Data Volumes
 volumes:
   mongo_data:
   mongo_config:
+  qdrant_storage:

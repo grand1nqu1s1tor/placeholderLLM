@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from kafka import KafkaProducer
 from pymongo import MongoClient
+from datetime import datetime
 
 # Load environment variables
 load_dotenv()
@@ -34,7 +35,7 @@ try:
         for change in stream:
             print(
                 f"🔄 MongoDB Change Detected: {change}"
-            )  # ✅ Debugging log (print every change)
+            )  #  Debugging log (print every change)
 
             if change["operationType"] == "insert":
                 tweet_data = change["fullDocument"]
@@ -45,6 +46,9 @@ try:
                     "text": tweet_data.get("text", ""),
                     "user_handle": tweet_data.get("user", {}).get("handle", "unknown"),
                     "hashtags": tweet_data.get("hashtags", []),
+                    "created_at": tweet_data.get("created_at", change.get("wallTime", datetime.utcnow()).isoformat()),
+                    #  Fallback to wallTime
+
                 }
 
                 print(
