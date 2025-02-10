@@ -51,13 +51,13 @@ services:
   mongo:
     image: mongo:7.0
     container_name: mongo
-    command: ["mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "27017"]
+    command: [ "mongod", "--replSet", "rs0", "--bind_ip_all", "--port", "27017" ]
     ports:
       - "27017:27017"
     extra_hosts:
       - "host.docker.internal:host-gateway"
     healthcheck:
-      test: ["CMD", "mongosh", "--port", "27017", "--quiet", "--eval", "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]}) }"]
+      test: [ "CMD", "mongosh", "--port", "27017", "--quiet", "--eval", "try { rs.status() } catch (err) { rs.initiate({_id:'rs0',members:[{_id:0,host:'mongo:27017'}]}) }" ]
       interval: 5s
       timeout: 30s
       start_period: 10s
@@ -100,6 +100,19 @@ services:
       - qdrant_storage:/qdrant/storage
     restart: always
 
+  fastapi_app:
+    build: .
+    container_name: api-container
+    volumes:
+      - .:/app  # This mounts the local folder inside the container
+    ports:
+      - "8000:8000"
+    depends_on:
+      - qdrant
+    environment:
+      - QDRANT_HOST=qdrant
+      - QDRANT_PORT=6333
+    command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
 
 # MongoDB Data Volumes
 volumes:

@@ -35,10 +35,12 @@ A lightweight, open-source project to experiment with **LLMs, data pipelines, an
 - Reduced Qdrant Indexing Threshold
 - Lowered indexing_threshold to 1 to ensure immediate indexing of vectors instead of waiting for bulk inserts.
   Configured the collection (tweet_embeddings) with 384-dimensional vectors
-
+- I am using a reranking model called rerank-bge-base-en from HuggingFace.
+- I need a cron job that keeps the model warm.
 ---
 
 Free Github Models : ( https://github.com/marketplace/models?WT.mc_id=academic-105485-koreyst)
+Qdrant CLient API used :https://python-client.qdrant.tech/
 
 ### **1️⃣ Clone the Repository**
 

@@ -1,0 +1,31 @@
+# 🔹 Exclude virtual environment (no need to copy Python venv)
+myvenv/
+
+# 🔹 Exclude local MongoDB data (handled via Docker volumes)
+mongo_data/
+mongo_config/
+
+# 🔹 Ignore cache, temp files, and compiled Python files
+__pycache__/
+*.pyc
+*.pyo
+*.log
+*.sqlite
+*.db
+*.pid
+*.swp
+
+# 🔹 Ignore files that are not needed in the container
+*.txt  # Exclude text files like `commands to use.txt`
+*.md   # Exclude markdown files like `README.md` and `CHANGELOG.md`
+cookies.json  # Ignore authentication/session files
+temp.py  # Ignore temporary scripts
+
+# 🔹 Exclude Docker-related files (no need to copy)
+.dockerignore
+Dockerfile
+docker-compose.yaml
+
+# 🔹 Ignore Git and system files
+.git/
+.DS_Store

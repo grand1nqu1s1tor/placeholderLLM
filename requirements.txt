@@ -5,3 +5,5 @@ sentence-transformers
 kafka-python
 qdrant-client
 numpy
+fastapi
+uvicorn
