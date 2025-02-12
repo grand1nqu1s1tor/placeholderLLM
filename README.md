@@ -37,6 +37,8 @@ A lightweight, open-source project to experiment with **LLMs, data pipelines, an
   Configured the collection (tweet_embeddings) with 384-dimensional vectors
 - I am using a reranking model called rerank-bge-base-en from HuggingFace.
 - I need a cron job that keeps the model warm.
+- [Using OCI to hosy my app]  (https://hitrov.medium.com/resolving-oracle-cloud-out-of-capacity-issue-and-getting-free-vps-with-4-arm-cores-24gb-of-a3d7e6a027a8)
+
 ---
 
 Free Github Models : ( https://github.com/marketplace/models?WT.mc_id=academic-105485-koreyst)
