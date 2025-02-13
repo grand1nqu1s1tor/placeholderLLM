@@ -15,7 +15,7 @@ services:
       - MONGO_URI=mongodb://mongo:27017/twitter_etl
     stdin_open: true
     tty: true
-    command: [ "python", "pull_tweets.py" ]  # Runs ETL script
+    command: [ "sh", "-c", "python pull_trending_tweets.py & python pull_ai_tweets.py & wait" ]
 
   # Run the CDC to detect new Twitter Data and send to Kafka in Batches
   cdc_service:
@@ -25,8 +25,10 @@ services:
       - .:/app
     working_dir: /app
     depends_on:
-      - mongo
-      - kafka
+      mongo:
+        condition: service_healthy
+      kafka:
+        condition: service_healthy
     environment:
       - MONGO_URI=mongodb://mongo:27017/twitter_etl
       - KAFKA_BROKER=kafka:9092
@@ -41,7 +43,8 @@ services:
       - .:/app
     working_dir: /app
     depends_on:
-      - kafka
+      kafka:
+        condition: service_healthy
     environment:
       - KAFKA_BROKER=kafka:9092
       - KAFKA_TOPIC=tweets_cdc
@@ -61,7 +64,7 @@ services:
       interval: 5s
       timeout: 30s
       start_period: 10s
-      retries: 30
+      retries: 10
     volumes:
       - mongo_data:/data/db
       - mongo_config:/data/configdb
@@ -83,10 +86,15 @@ services:
     ports:
       - "9092:9092"
     environment:
-      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092  # ✅ Ensures Kafka is accessible
-      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092  # ✅ Fixes hostname issue
-      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181  # ✅ Corrected Bitnami format
-      - ALLOW_PLAINTEXT_LISTENER=yes  # ✅ Ensures no auth issues
+      - KAFKA_CFG_LISTENERS=PLAINTEXT://:9092  #  Ensures Kafka is accessible
+      - KAFKA_CFG_ADVERTISED_LISTENERS=PLAINTEXT://kafka:9092  #  Fixes hostname issue
+      - KAFKA_CFG_ZOOKEEPER_CONNECT=zookeeper:2181  #  Corrected Bitnami format
+      - ALLOW_PLAINTEXT_LISTENER=yes  #  Ensures no auth issues
+      - KAFKA_CFG_AUTO_CREATE_TOPICS_ENABLE=true  #  Ensure topics are auto-created
+    healthcheck:
+      test: [ "CMD", "kafka-topics.sh", "--bootstrap-server", "kafka:9092", "--list" ]
+      interval: 10s
+      retries: 5
     restart: always
 
   # Qdrant Vector Database
@@ -112,7 +120,7 @@ services:
     environment:
       - QDRANT_HOST=qdrant
       - QDRANT_PORT=6333
-    command: ["uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000", "--reload"]
+    command: [ "uvicorn", "app:app", "--host", "0.0.0.0", "--port", "8000", "--reload" ]
 
 # MongoDB Data Volumes
 volumes:
