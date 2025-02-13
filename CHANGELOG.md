@@ -1,3 +1,7 @@
+## 660d60d - Major refactors + Operational fixes (grandinquisitor, 2025-02-12)
+## 1571ce8 - host a VPS (grandinquisitor, 2025-02-11)
+## 3353abd - context + Cross Encoding (grandinquisitor, 2025-02-09)
+## f614e3b - Progress update (grandinquisitor, 2025-02-08)
 ## 447757a - Vector DB Setup Done + Embeddings being Stored for Tweets (grandinquisitor, 2025-02-08)
 ## e7b7633 - The ETL is working now. Onto the Embeddings Lore tomorrow (grandinquisitor, 2025-02-06)
 ## 45b0bc8 - Goodnight (grandinquisitor, 2025-02-06)
