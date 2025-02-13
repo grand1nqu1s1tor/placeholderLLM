@@ -9,7 +9,7 @@ from sentence_transformers import SentenceTransformer
 
 # Kafka Configuration
 KAFKA_BROKER = os.getenv("KAFKA_BROKER", "kafka:9092")
-KAFKA_TOPICS = [os.getenv("TRENDING_TOPIC", "tweets_trending"), os.getenv("AI_TOPIC", "ai_tweets")]
+KAFKA_TOPICS = [os.getenv("TRENDING_TOPIC", "tweets_trending"), os.getenv("AI_TOPIC", "tweets_ai")]
 
 # Qdrant Configuration
 QDRANT_HOST = os.getenv("QDRANT_HOST", "qdrant")
@@ -54,10 +54,14 @@ consumer = KafkaConsumer(
     bootstrap_servers=KAFKA_BROKER,
     auto_offset_reset="earliest",
     enable_auto_commit=True,
-    value_deserializer=lambda x: json.loads(x.decode("utf-8")),
+    value_deserializer=lambda x: json.loads(x.decode("utf-8")) if x else None,
 )
 
 for message in consumer:
+    if message.value is None:  # ✅ Skip None messages
+        print("⚠ Received an empty Kafka message. Skipping...")
+        continue
+
     tweet = message.value
     topic = message.topic  # ✅ Extract topic name
 

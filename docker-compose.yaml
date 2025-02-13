@@ -49,7 +49,6 @@ services:
       - KAFKA_BROKER=kafka:9092
       - KAFKA_TOPIC=tweets_cdc
     command: [ "python", "kafka_to_embeddings.py" ]  # Runs Kafka consumer script
-
   # Stores our Tweets JSON objects
   mongo:
     image: mongo:7.0

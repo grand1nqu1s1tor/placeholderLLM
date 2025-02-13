@@ -23,6 +23,7 @@ reranker = CrossEncoder("BAAI/bge-reranker-base", device="cpu")
 HUGGINGFACE_API_KEY = os.getenv("HF_APP_TOKEN")
 HEADERS = {"Authorization": f"Bearer {HUGGINGFACE_API_KEY}"}
 
+
 # Define request model
 class QueryRequest(BaseModel):
     query: str
@@ -37,12 +38,15 @@ def summarize_trends(limit: int = 10):
     """
 
     # Scroll Qdrant to fetch the trending topics
+# Scroll Qdrant to fetch trending topics
     try:
-        trending_results = qdrant.scroll(collection_name="trending_topics", limit=limit)
+        trending_results, _ = qdrant.scroll(collection_name="tweet_embeddings", limit=limit)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Failed to scroll Qdrant: {e}")
 
-    top_trends = [res.payload["topic"] for res in trending_results]
+    # Extract topic names safely from Qdrant Records
+    top_trends = [res.payload["topic"] if "topic" in res.payload else "Unknown Topic" for res in trending_results]
+
 
     summaries = []
     for trend in top_trends:

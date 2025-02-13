@@ -26,8 +26,8 @@ db = client_mongo["twitter_etl"]
 collection = db["tweets_trending"]
 
 if "tweets" not in db.list_collection_names():
-    db.create_collection("tweets")
-    print("Created collection: tweets")
+    db.create_collection("tweets_trending")
+    print("Created collection")
 
 
 # Initialize Twikit Client
@@ -55,7 +55,7 @@ async def fetch_trending_topics():
 )
 async def fetch_tweets_by_topic(topic):
     """Fetches up to 50 tweets for a given trending topic."""
-    return await client.search_tweet(topic, "Top", 5)
+    return await client.search_tweet(topic, "Top", 2)
 
 
 async def fetch_full_tweets():
